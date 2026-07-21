@@ -1,0 +1,9 @@
+{
+  "id": "microsoft-todo-importer",
+  "name": "Microsoft To Do Importer",
+  "version": "0.1.0",
+  "minAppVersion": "1.11.4",
+  "description": "Importiert offene Microsoft-To-Do-Aufgaben als eigenständige Markdown-Notes.",
+  "author": "bruhn",
+  "isDesktopOnly": true
+}

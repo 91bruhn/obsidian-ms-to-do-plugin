@@ -1,0 +1,120 @@
+.ms-todo-importer-modal {
+  width: min(760px, calc(100vw - 32px));
+}
+
+.ms-todo-importer,
+.ms-todo-importer-auth,
+.ms-todo-importer-settings {
+  --ms-todo-importer-gap: 0.75rem;
+}
+
+.ms-todo-importer__lists {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ms-todo-importer-gap);
+  max-height: min(58vh, 620px);
+  overflow-y: auto;
+  padding: 0.25rem;
+}
+
+.ms-todo-importer__list {
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  background: var(--background-secondary);
+}
+
+.ms-todo-importer__list-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 0.8rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ms-todo-importer__list-title {
+  flex: 1;
+  font-weight: var(--font-semibold);
+}
+
+.ms-todo-importer__count,
+.ms-todo-importer__badge {
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+  color: var(--text-muted);
+  background: var(--background-modifier-hover);
+  font-size: var(--font-ui-smaller);
+}
+
+.ms-todo-importer__badge.is-conflict {
+  color: var(--text-error);
+  background: rgba(var(--color-red-rgb), 0.12);
+}
+
+.ms-todo-importer__tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0 0.7rem 0.7rem 2rem;
+}
+
+.ms-todo-importer__task {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 2rem;
+  padding: 0.25rem 0.4rem;
+  border-radius: var(--radius-s);
+}
+
+.ms-todo-importer__task:hover {
+  background: var(--background-modifier-hover);
+}
+
+.ms-todo-importer__task > span:not(.ms-todo-importer__badge) {
+  flex: 1;
+}
+
+.ms-todo-importer__error {
+  margin: 0.5rem 0;
+  padding: 0.65rem 0.8rem;
+  border-radius: var(--radius-s);
+  color: var(--text-error);
+  background: rgba(var(--color-red-rgb), 0.1);
+  white-space: pre-wrap;
+}
+
+.ms-todo-importer__empty,
+.ms-todo-importer__progress {
+  color: var(--text-muted);
+}
+
+.ms-todo-importer__result {
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--background-modifier-border);
+}
+
+.ms-todo-importer__result h3 {
+  margin-block: 0 0.4rem;
+  font-size: var(--font-ui-medium);
+}
+
+.ms-todo-importer-auth__code {
+  margin: 1rem 0;
+  padding: 0.8rem;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  background: var(--background-secondary);
+  font-family: var(--font-monospace);
+  font-size: 1.8rem;
+  font-weight: var(--font-bold);
+  letter-spacing: 0.12em;
+  text-align: center;
+  user-select: all;
+}
+
+.ms-todo-importer-auth__message {
+  color: var(--text-muted);
+  white-space: pre-wrap;
+}
