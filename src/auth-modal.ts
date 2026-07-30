@@ -14,8 +14,9 @@ export class DeviceCodeModal extends Modal {
   }
 
   public override onOpen(): void {
-    this.render();
-    void this.authenticate();
+    this.authenticate().then(() => {
+      this.render()
+    });
   }
 
   public override onClose(): void {

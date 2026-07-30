@@ -4,11 +4,14 @@ import {
   type AuthenticationResult,
   type Configuration,
   type ICachePlugin,
+  type INetworkModule,
+  type NetworkRequestOptions,
+  type NetworkResponse,
   type TokenCacheContext
 } from "@azure/msal-node";
-import type { App } from "obsidian";
+import { requestUrl, type App } from "obsidian";
 
-const AUTHORITY = "https://login.microsoftonline.com/common";
+const AUTHORITY = "https://login.microsoftonline.com/consumers";
 const SCOPES = ["Tasks.Read"];
 const TOKEN_CACHE_SECRET_ID = "microsoft-todo-importer-token-cache";
 
@@ -23,6 +26,43 @@ export class AuthenticationRequiredError extends Error {
   public constructor(message = "Microsoft-Anmeldung erforderlich.") {
     super(message);
     this.name = "AuthenticationRequiredError";
+  }
+}
+
+/** Routes MSAL requests through Obsidian's desktop HTTP API instead of fetch. */
+class ObsidianNetworkClient implements INetworkModule {
+  public async sendGetRequestAsync<T>(
+    url: string,
+    options?: NetworkRequestOptions
+  ): Promise<NetworkResponse<T>> {
+    return this.sendRequest<T>(url, "GET", options);
+  }
+
+  public async sendPostRequestAsync<T>(
+    url: string,
+    options?: NetworkRequestOptions
+  ): Promise<NetworkResponse<T>> {
+    return this.sendRequest<T>(url, "POST", options);
+  }
+
+  private async sendRequest<T>(
+    url: string,
+    method: "GET" | "POST",
+    options?: NetworkRequestOptions
+  ): Promise<NetworkResponse<T>> {
+    const response = await requestUrl({
+      url,
+      method,
+      headers: options?.headers,
+      body: options?.body,
+      throw: false
+    });
+
+    return {
+      status: response.status,
+      headers: response.headers,
+      body: JSON.parse(response.text) as T
+    };
   }
 }
 
@@ -130,6 +170,9 @@ export class MicrosoftAuthService {
       },
       cache: {
         cachePlugin: new SecretStorageCachePlugin(this.app)
+      },
+      system: {
+        networkClient: new ObsidianNetworkClient()
       }
     };
     this.client = new PublicClientApplication(configuration);

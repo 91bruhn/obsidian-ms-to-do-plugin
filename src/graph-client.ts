@@ -121,14 +121,13 @@ export class MicrosoftGraphClient implements ChecklistProvider {
   public constructor(private readonly auth: MicrosoftAuthService) {}
 
   public async listTaskLists(): Promise<TodoTaskList[]> {
-    const query = "$select=id,displayName,isOwner,isShared,wellknownListName";
-    return this.getAll(`${GRAPH_ROOT}/me/todo/lists?${query}`, parseTodoTaskList);
+    return this.getAll(`${GRAPH_ROOT}/me/todo/lists`, parseTodoTaskList);
   }
 
   public async listOpenTasks(listId: string): Promise<TodoTask[]> {
     const encodedListId = encodeURIComponent(listId);
-    const select = "$select=id,title,status,importance,createdDateTime,body";
-    const filteredUrl = `${GRAPH_ROOT}/me/todo/lists/${encodedListId}/tasks?${select}&$filter=status%20ne%20'completed'`;
+    const tasksUrl = `${GRAPH_ROOT}/me/todo/lists/${encodedListId}/tasks`;
+    const filteredUrl = `${tasksUrl}?$filter=status%20ne%20'completed'`;
 
     let tasks: TodoTask[];
     try {
@@ -137,10 +136,7 @@ export class MicrosoftGraphClient implements ChecklistProvider {
       if (!(error instanceof GraphApiError) || error.status !== 400) {
         throw error;
       }
-      tasks = await this.getAll(
-        `${GRAPH_ROOT}/me/todo/lists/${encodedListId}/tasks?${select}`,
-        parseTodoTask
-      );
+      tasks = await this.getAll(tasksUrl, parseTodoTask);
     }
     return tasks.filter((task) => task.status !== "completed");
   }

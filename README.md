@@ -8,19 +8,19 @@ Dieses Desktop-Plugin importiert offene Aufgaben aus Microsoft To Do als eigenst
 
 - Obsidian Desktop 1.11.4 oder neuer
 - Node.js für die Entwicklung
-- Ein persönliches Microsoft-Konto oder ein Microsoft-Geschäfts-/Schulkonto
+- Ein persönliches Microsoft-Konto
 - Eine eigene App-Registrierung in Microsoft Entra
 
 ## Entra-App registrieren
 
 1. Öffne das [Microsoft Entra Admin Center](https://entra.microsoft.com/) und erstelle unter **App registrations** eine neue Registrierung.
-2. Wähle als unterstützte Kontotypen **Accounts in any organizational directory and personal Microsoft accounts**.
+2. Wähle als unterstützten Kontotyp **Personal Microsoft accounts only** (nur persönliche Microsoft-Konten).
 3. Notiere die **Application (client) ID**. Die Directory-/Tenant-ID wird nicht benötigt.
 4. Füge unter **API permissions → Microsoft Graph → Delegated permissions** ausschließlich `Tasks.Read` hinzu. `User.Read` kann entfernt werden, sofern Entra dies für deine Registrierung erlaubt.
 5. Aktiviere unter **Authentication → Advanced settings** die Option **Allow public client flows**.
 6. Es wird kein Redirect-URI und insbesondere kein Client Secret angelegt.
 
-Das Plugin verwendet den Device-Code-Flow gegen den Microsoft-Tenant `common`. Beim Verbinden zeigt es einen Code und die Microsoft-Anmeldeseite an. Der MSAL-Token-Cache wird im SecretStorage des jeweiligen Obsidian-Vaults abgelegt.
+Das Plugin verwendet den Device-Code-Flow gegen den Microsoft-Tenant `consumers`. Beim Verbinden zeigt es einen Code und die Microsoft-Anmeldeseite an. Der MSAL-Token-Cache wird im SecretStorage des jeweiligen Obsidian-Vaults abgelegt. Die aktuelle Version unterstützt deshalb persönliche Microsoft-Konten; Geschäfts- und Schulkonten sind noch nicht unterstützt.
 
 ## Installation für die Entwicklung
 
